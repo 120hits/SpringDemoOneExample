@@ -1,0 +1,1217 @@
+//setter injection 
+----------------------------------------------------
+index 
+-----
+
+1. - make a class called cricket coach
+	- add in the interface of the main obj coach 
+		- auto generated the 2 methods we had getdailyWorkout() & getDailyFortune()
+			- add in the helper class FortuneService as an field 
+			
+2. - add 2 private fields called emailAddress & team 
+
+3. - generate getters and setters for the 2 fields 
+
+4. - create the no-arg-const 
+
+5. - setter method injection 
+		- sysout a message for testing 
+		- add in the setters only 
+		
+6. - configure the xml file for the setter injection 
+		-create new bean with
+		- id = myCricketCoach
+		- class =
+			get the qualified name for the class 
+
+
+7. - create a property with name and ref 
+		- name as fortuneService 
+		- ref as myFortuneService 
+					-
+
+8. - create setter demo app class 
+		- load the spring configure file 
+			//ClassPathXmlApplicationContext 
+			
+		- retrieve obj bean from the spring container 
+			//main obj = context + .getBean method((bean id)+ , main obj.class
+			
+		- call methods on the bean 
+			//sys out(obj name.getmethod())
+			
+		- close the context
+			//context.close();
+---------------
+
+1.  - create a cricketCoach class
+	- add in the interface of coach within the cricket class 
+	
+2. After creating the class with the interface 
+	- add in the return messages with the 2 methods 	
+
+//getDailyFortune: I forgot that for getDailyForturne we need the helper class 
+	- create the private field FortuneService fortuneService;
+	- Method getDailyFortuneService() 
+		- Add in the variable name of fS.
+			- connect it .getFortune(); method
+
+3.//create a no arg-constructor
+	- below the private field
+	- const has the same name as the class
+	- {} inside it add in the sysout 
+		- {"CC: inside no-arg constructor"} 
+
+4.//Create setter method in your class for injections
+	- source > generate setters and getters >
+	- > add only the setter check box 
+	- the setter method will be called by spring when it 
+		- actually inject the dependency
+	- sysout another message for testing  
+	
+5.//Configure the dependency injection in Spring configure file 
+- open up applicationContext.xml file 
+- add a new bean with the id of "CricketCoach"
+- For the class="" we get the qualified name again 
+	- copy the public class name of the cricketcoach 
+	- and right click and get the qualified name and 
+	- paste in inside the class for the bean 
+		com.luv2code.springdemo.CricketCoach
+		
+//For the cricketCoach-property name,
+-- the spring will call setFortuneService(..)
+	
+	
+6. Setter injection inside the xml file 
+- create a property with name and ref 
+- name="fortuneService", from the private interface field i guess-
+- ref ="myFortuneService"	
+-- myFortuneService ref is the same 
+--- bean id for HappyFortuneService
+	
+
+
+7.Create a new main app class - SetterDemoApp 
+//1. Load the Spring Configure file 
+//2. retrieve Obj Bean from Spring Container 
+//3. call methods on the bean 
+//4. close the context 
+
+
+
+	
+-------------------------------------------------------
+8.	Injecting Literal Values 
+-------------------------------------------------------
+Development Process 
+1. Create Setter Methods in your class for Injections 
+
+2. Configure the injection in Spring configure file 
+	
+-----------------
+
+8.1) CricketCoach
+
+1. add 2 new private String fields for the 
+	email address and 
+	team 
+	inside the CricketCoach.java class
+	right below the private Interface;
+
+2. generate the getters and setters 
+	- we only need setters for this example but 
+	Chad added the getters too for the print example 
+	
+	- Next copy the print out message from the 
+		- setter method 
+		- change the message to 
+		- CrickCoach: inside setter method - setEmailAddress
+	
+
+
+//Step 2
+Configure the injection in spring configure file 
+--------------------------------------------------
+- inject literal values by adding 
+	- 2 properties with name and value
+	- name = "emailAddres" , name = "team"
+	- value = "rohits2013@gmail.com" , "baunHouse"
+	
+- Go inside SetterDemoApp.java 
+
+- sysout getters for emailAddress & team 
+	
+	
+	
+	
+//9	
+==================================================	
+	INJECTING VALUES FROM PROPERTIES FILE 
+	======================================
+	
+DEV PROCESS 
+===========
+	- create properties file 
+	- load properties file in spring configure file 
+	- reference values from properties file 
+===================================================
+//Having a Properties File for the Values 
+	- so we can read the emailAddress and team from the property file
+	
+---
+//1
+- create a properties file called sports.properties 
+	- <context: ..hover & wait for list of options
+	- choose: property:palceholder />
+//2
+	- add in the 
+	location="classpath:"name of the file"
+	<context:property-placeholder location="classpath:sport.properties"/>
+
+//3 
+- Go back to our applicationContext.xml file 
+- change the literal values with out ${foo.emailAddress}
+	
+
+Finally run the SetterDemoApp.java
+	
+	
+==========================================================================	
+	
+								BEAN SCOPES 
+									
+===========================================================================
+	
+	- refers to the life cycle of the bean 
+	- It also tells you how long the bean will live 
+	- how many instances will be created?
+	- how is the bean shared?
+	
+	in the spring environment.
+	
+
+DEFAULT SCOPE IS AN SINGLETON 
+
+
+What is an singleton ?
+----------------------
+
+- Spring Container Creates one Instance of the Bean by Default.
+- It is Cached in Memory
+- All Requests for the Bean 
+	- will be returned SHARED Reference to the Same Bean
+	
+	
+//More than One Obj, References the Same Bean. 	
+//They Point to the Same area of Memory.
+
+EX: TrackCoach bean will be referenced with both
+
+Coach theCoach = context.getBean("myCoach", Coach.class);
+&
+Coach aplhaCoach = context.getBean("myCoach", Coach.class);
+
+//call requesting-
+- the same bean(TrackCoach)
+
+//Best Use Case for this is
+-  a Stateless Bean  
+
+//You can explicitly specify 
+the bean scope by 
+adding a 
+scope="singleton"
+ inside the xml bean 
+ 
+ 
+ //Additional Spring bean scopes 
+ 
+ - Singleton = Create a Single Instance of the Bean, Default scope 
+ - Prototype = Creates a New Bean Instance for Each Container Request 
+ - Session = Scoped to an HTTP Web Session, Only used for Web App
+ - Request = Scoped to an HTTP Web Session, Only used for Web App
+ - Global-Session = Scoped to an Global HTTP Web session Apps
+
+
+
+//Prototype 
+
+- it makes a new obj for each request and have our own reference 
+- new instance of that bean obj and 
+-- will get an reference to it 
+
+
+//Prototype is good for keeping track of state full data 
+
+//deleted code that is no longer needed for the copy of bean scope xml file 
+
+//it is one of the properties file 
+<!-- load the properties file:sport.properties -->
+	<context:property-placeholder location="classpath:sport.properties"/>
+    <!-- Define your beans here -->
+    
+//also remove the cricketcoach bean 
+
+
+-------------------------------------------------------------------------------
+					Bean Life cycle Method 
+===============================================================================
+  
+- Container Started >> 
+- Bean Instantiated >>
+- Dependencies Injected >>
+- Internal Spring Processing >>
+- Custom Init Method >> 
+- Bean is Ready for Use/Container is Shutdown 
+- Chance to call your Custom Destroy Method 
+- Application is Stop 
+
+---------------------------------------------
+
+Bean Life cycle Methods and hooks 
+--------------------------------
+
+- you can add custom code during Bean Initialization 
+- ex calling custom business logic methods 
+- Setting up Handles and to Resources (DB, Sockets, Files etc)s
+   
+--------------------------------
+
+- You can add custom code during bean bean Destruction 
+- calling custom business logic method 
+- Clean up handles to resources (db, sockets, file etc )
+
+
+HOOKs = calling your custom code, 
+where you can hook in your code to execute 
+--------------------------------
+how can you do this?
+By making a configuration entry in your xml file 
+
+//init-method is an attribute 
+//and you give a method name"doMyStartupStuff"	
+//this is for the bean initialization  	
+
+//we can also add the destroy method attribute next to init method 
+
+<beans>
+
+	<bean id="myCoach" 
+		  class="com.rs.springdemo.baseBallCoach"
+		  init method="doMyStartupStuff"
+		  destroy-method="doCleanMyStuff"	
+		  >
+	</bean>
+
+</beans>
+
+-------------------------------------------------------------
+
+//DEV PROCESS
+
+1. Define your Method for Init and Destroy 
+2. Configure the Method Names in the Spring Configuration file 
+
+
+1.1// For in-it method 
+
+we need to first go inside our baseBallcoach java class
+- make the method public 
+- return type is void so no return type 
+- name it, same as the doMyStartupStuff
+- sysout ("baseBallCoach : inside method doMyStartupMethod ")
+
+1.2// For the Destroy method 
+
+//this is a hook or method, 
+that will be called 
+when your bean is actually 
+being destroyed 
+
+For the destroy method do the same thing as in-it method 
+- create a public method 
+- make it as a void 
+- name it doMyCleanupStuff
+- sysout ("baseBallCoach : inside method doMyCleanup
+------------------------------------------------------
+
+//Writing some code for Bean life cycle
+------------------------------------------------------
+- copy/paste the xml file : beanScope-application.xml 
+- with the new xml that we pasted -
+- we need to rename it to : beanLifeCycle-appliactionContext.xml
+
+--- step 2 
+
+Next copy/paste the BeanScopeDemoApp.java
+and with the new renamed file is : beanLifeCycleDemoApp
+
+---- step 3 
+
+for the new demo app 
+- delete all the extra stuff and retain only the core stuff like 
+	- loading the spring configure file 
+	- retrieve bean from the spring container 
+	- sysout(theCoach.getDailyWorkout()
+	
+printed : 
+baseBallCoach: inside method doMyStartupStuff
+spend 30min batting 
+baseBallCoach: inside method doMyCleanupStuff
+-------------------------------------------------------------
+//Extra notes to remember for prototype and destroy method//
+-------------------------------------------------------------
+- For Prototype Scoped Beans, 
+	Spring does not call the destroy method 
+	
+In contrast to the other scopes, 
+Spring does not manage
+the complete life cycle of
+a prototype bean: 
+the container instantiates,
+configures, 
+and otherwise assembles 
+a prototype object,
+and hands it to the client, 
+with no further record of 
+that prototype instance.
+
+
+Thus, 
+although initialization lifecycle 
+callback methods are called on all objects 
+regardless of scope, 
+in the case of prototypes, 
+configured destruction 
+lifecycle callbacks
+ are not called. 
+ 
+ The client code must 
+ clean up prototype-scoped objects 
+ and release expensive resources 
+ that the prototype bean(s) are holding. 
+ 
+ ---------------------------------------
+ //This also applies to both 
+ XML configuration and 
+ Annotation-based configuration.
+
+-------------------------------------
+
+//////////////////////////////////////
+
+SPRING CONFIGURATION WITH ANNOTATIONS 
+-------------------------------------
+
+
+-Configure your spring beans with annotations 
+- to minimize your XML configuration 
+
+
+//we will add annotations to a given class 
+- that Spring can use that for configuring a system 
+-it will then scan your java classes for those annotations  
+- then it will automatically register that bean with the spring container 
+
+///////////////////////DEV PROCESS/////////////////////////////////////////
+
+1/ Enable component scanning in spring configure file 
+
+2/ add the @Component annotation to your java classes 
+
+3/ Retrieve bean from spring container 
+
+
+//Before we start we have to make a new java project 
+// name it springDemoAnnotations
+// Copy the xml applicationContext.xml 
+// Delete almost everything except the main xmls and http urls 
+
+
+
+//Inside the applicationContext.xml file 
+1.1. Create a xml <!-- add entry to enable component scanning -->
+1.2. make a <context:> tag 
+1.3 :hover it to and choose <context:component-scan
+1.4. Then put the package name for base-package as com.rs.springDemo
+
+//////////////////////////////////////////////////////////////////////////////
+
+							HIBERNATE JPA OVERVIEW 
+						
+/////////////////////////////////////////////////////////////////////////////
+
+- a framework for persisting / saving java objects in a database 
+
+//  High level, you will have your java application
+//  it will make use of the Hibernate framework 
+// you can use it for saving and retrieving data from the data base 
+
+//Benifits of hibernate 
+
+- Hibernate handles all the low level sql code 
+
+- Minimizes the amount of JDBC code you have to develop 
+
+- Hibernate provides the object-relational mapping(ORM)
+	- makes it really easy to create apps to 
+		- store and 
+		- retrieve 
+	objects from the data base 
+	
+
+//As a dev
+all you need to do is 
+tell the hibernate 
+how your java class or obj 
+maps to the data in the 
+data base 
+
+
+//JPA (JAKARTA PERSISTENCE API)//
+--------------------------------
+- standard api for object relational mapping (ORM) 
+- only a specification 
+- defines a set of interfaces 
+- requires a implementation to be usable 
+
+
+//JPA Vendor Implementations 
+- Hibernate & EclipseLInk points to the 
+- JPA spec 
+
+- can have multiple vendors 
+- and switch between them 
+
+
+
+-----------------------------
+JPA Spec 
+Hibernate 
+
+
+
+Saving a java obj with JPA 
+
+
+//create a java obj//
+---------------------
+Student student = new Student ("ro", "doe", "udemy.com");
+
+//firstName, lastName, emailAddress 
+
+//Save it to database//
+-----------------------
+//eM = special JPA helper object 
+entityManager.persist(theStudent);
+
+//persist = the data will be stored in the database SQL insert
+
+//now retrieve from database using the primary key//
+---------------------------------------------------- 	
+int theId = 1;
+Student student = entityManager.find(Student.class, theId)
+
+
+//find// = query the database for given id
+
+
+
+//JPA Annotations////////////////////////////////
+------------------------------------------------
+
+//dev process 
+
+
+1. annotate java class 
+
+2. develop java code to perform database operations 
+
+//Entity class//
+----------------
+
+- must be annotated with @Entity 
+
+- must have public or protected no-arguments constructor 
+ 	- the class can have no constructors 
+
+
+//Constructor refresher//
+------------------------ 
+
+//about constructors in java is that 
+
+- if you don't declare any constructors 
+	- java will provide a no-argument constructor for free 
+
+- if you do declare constructors with arguments in your class 
+	- then you do NOT get a no-argument constructor for free
+	- in this case you have to explicitly declare a no-args const 
+	
+
+
+//java class							//Database table 
+------------							-----------------
+
+Student 								Student 
+- id: int 								id INT 	
+- firstName : String 					first_name VARCHAR(45) 	
+- lastName : String >>>>>>>>JPA>>>>>>>>	last_name VARCHAR(45) 
+- email : String 						email VARCHAR(45) 
+	
+-----------------------------------------------
+
+//STEP 1 MAP CLASS TO DATABASE TABLE
+//STEP 2 MAP FIELDS TO DATABASE COLUMNS 
+
+
+// STEP 1.1.// 
+- add in the
+@Entity
+ annottation 
+
+- below that add in the 
+@Table 
+- with the parm (name="student") 
+
+- finally the public class student {}
+
+		@Entity
+		@Table("student")
+		public class Student{
+		
+		
+		}
+
+
+
+//("student") 
+is the actual name of 
+the database table 
+we are actually 
+mapping this java class to 
+
+//STEP 2// 
+- @Table is optional 
+- @column is also optional
+
+//Primary key//
+--------------
+- uniquely indentifies each row in a table 
+- must be a unique value 
+- connot contain null values 
+
+//MySQL - Auto Increment 
+------------------------
+//column id 
+//
+	CREATE TABLE student (
+	
+		id int NOT NULL AUTO_INCREMENT,
+		first_name varchar(45) DEFAULT NULL,
+		last_name varchar(45) DEFAULT NULL,
+		email varchar(45) DEFAULT NULL,
+		PRIMARY KEY(id) 
+	
+	)
+
+
+- in MySQL Database, 
+we can make use of an Auto Increment 
+
+- we can Define our Primary Key, then 
+- we can Specify that it's an 
+	Auto Increment 
+
+------------------------------
+JPA Identity - Primary Key
+-------------------------------
+
+	@Entity 
+	@Table(name="student")
+	public class Student{
+	
+		@id
+		@GeneratedValue(strategy=GenerationType.INDENTITY)
+		@Column(name="id")
+		private int id;
+	
+	}
+	
+ 
+ //we know that
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////
+
+section 8
+
+
+////////////Spring MVC Form validation overview//////////////////
+
+////////////////Java Standard Bean Validation API//////////////
+
+- defines a metadata model and API for entity validation 
+- not tied to the either web tier or the persistence tier 
+- Available for server side apps and also client-side JavaFX/SwingApps
+
+
+You can go to hhtp://www.beanvalidation.org 
+
+- Spring 4 or higher supports the spring validation API 
+- it is the perfered method for validation when building the spring apps 
+- we simply add the validation jars to our projects 
+- use the annotations 
+
+-------------------Bean Validation Features--------------------------------
+ 
+
+- For required 
+- validate length 
+- validate numbers 
+- validate with regular expressions 
+- custom validate 
+
+-----------------------validation Annotations ---------------
+
+
+@NotNull = checks that the annotated value is not null 
+
+@Min = must be a number >= value 
+
+@Max = must be a number <= value 
+
+@Size = size must match the given size 
+
+@Pattern = must match a regular expression pattern 
+
+@Future/@Past= Date must be in future or past of given data  
+
+
+
+-------------------------Our Road Map----------------------------
+
+
+1. Setup development environment 
+
+2. Required fields 
+
+3. Validate number range : min and max 
+
+4. validate using regular expressions 
+
+5. custom validation 
+
+
+1.1. Go to the hibernate website > validator > releases  6.2 to download the zip 
+1.2. Make a new java project called springMvcDemo 
+1.3. add the lib folder in our project 
+1.4. then add the jars in our classpath 
+1.5. then add the external jar from the hibernate vaidator > dist > 3 hibernate file + the required folder jars 
+1.6. Next 
+
+
+
+///////////Required Fields/////////////
+
+//creating a customer first name and last name fields 
+	- but adding the required fileds for validation 
+
+1. Create a customer form called customer-form.jsp 
+2. Then pass it to our customer controller 
+3. Perform the validation, if val = good 
+4. Send them to the configuration page 
+5. If validation fails send the customer back to the customer form 
+
+
+////////////DEV PROCESS FOR VALIDATION////////////////////////////
+
+1. Add validation rule to the customer class 
+2. Display the error message on HTML form 
+3. Perform Validation in the Controller Class 
+4. Update the configuration page 
+
+
+/63/setting up data base table 
+
+//2 database scripts 
+
+1) folder: 00-starter-sql-scripts
+
+1. 01-create-user.sql 
+2. 02-student-tracker.sql 
+
+//about: 01-create-user.sql 
+
+1. create a new mytsql user for our application 
+	- user id: springstudent 
+	- password: springstudent
+	
+//about 02-student-tracker.sql 
+//this will actually create our database table application called student 
+
+1. create a new database table: student 
+
+
+/////////////////GO INTO MYSQL PROGRAM///
+
+- login pass: root1337
+- hover to top 
+- file > open sql script > 
+- find the sql folder we downloaded from udemy from the resource file in udemy 
+- open up 01-create-user-sql 
+
+//inside 01-create-user-sql 
+//in a nut shell the file..
+
+- creates new user,
+- the user id of spring student 
+- the password of spring student 
+
+// so in the future if i have to create/use this file i can 
+// or in the root database create this file and 
+	- connect/create a new data connection 
+	
+
+//WHAT IS DROP USER//
+The DROP USER 
+statement removes 
+one or more MySQL accounts and 
+their privileges. 
+
+It removes privilege rows 
+for the account 
+from all grant tables. 
+
+To use DROP USER , 
+you must have 
+the global CREATE USER privilege, or 
+the DELETE privilege for 
+the mysql system database.
+
+
+//Next lets create a new data connection 
+
+- name it springstudent 
+- username is also springstudent 
+
+
+//basically chad made us a pre-built file to use for the example 
+
+//Next open up the 2nd file in our starter-sql folder 
+
+//INSIDE 02-student-traker//
+---------------------------
+//open it up inside mysql work bench with the data connection of springstudent 
+
+
+		CREATE DATABASE  IF NOT EXISTS `student_tracker`;
+		USE `student_tracker`;
+		
+		--
+		-- Table structure for table `student`
+		--
+		
+		DROP TABLE IF EXISTS `student`;
+		
+		CREATE TABLE `student` (
+		  `id` int NOT NULL AUTO_INCREMENT,
+		  `first_name`varchar(45) DEFAULT NULL,
+		  `last_name` varchar(45) DEFAULT NULL,
+		  `email` varchar(45) DEFAULT NULL,
+		  PRIMARY KEY (`id`)
+		) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+		
+
+
+//behind the scenes 
+it creates 
+the database schema for us called
+ the student_tracker
+
+//and it will actually will create a table for us called student 
+that will have 4 columns here 
+id 
+firstname 
+lastname 
+email 
+
+
+//Next we have to hit 
+the thunder bolt symbol to 
+load/run it up 
+then we can refresh 
+the schema in the top left 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SPRNG BOOT///////////////////////////////////////
+
+
+//AUTOMATIC DATA SOURCE CONFIGURATION//////////////////
+
+- In spring boot hibernate is the default implementation of jpa 
+- EntityManager is the main component for creating queries 
+- EntityManager is from the jakarta persistence(jpa) 
+
+- based on the configs,
+spring boot will automatically create the beans for:
+
+- DataSoure & 
+- EntityManager
+
+
+//- you can then inject these into your app,
+for example your DAO 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------
+Q Why do we use CricketCoach class instead of Coach Interface?
+-----------------------------------------------------------------------------------
+For the CricketCoach example with Setter Injection, 
+why do we use the CricketCoach class 
+instead of the Coach interface?
+
+A: The getTeam() method 
+is only defined in 
+the CricketCoach class. 
+
+It is not part of 
+the Coach interface.
+As a result, 
+you would need the following code:
+
+
+
+	 CricketCoach theCricketCoach = 
+	 context.getBean("myCricketCoach", CricketCoach.class); 
+		
+		
+
+The Coach interface has two methods: 
+getDailyWorkout and 
+getDailyFortune
+
+The CricketCoach class has (4)Four methods: 
+- getDailyWorkout, 
+- getDailyFortune, 
+- getTeam and 
+- setTeam
+
+---
+
+When you retrieve a bean 
+from the Spring container using
+ the Coach interface:
+
+
+
+	 Coach theCricketCoach = 
+	 context.getBean("myCricketCoach", Coach.class); 
+
+
+
+You only have access to 
+the methods defined in 
+the Coach interface: 
+getDailyWorkout and 
+getDailyFortune. 
+
+Even though 
+the actual implementation 
+has additional methods, 
+you only have visibility to methods 
+that are defined at 
+the Coach interface level.
+
+---
+
+When you retrieve 
+a Bean from 
+the Spring Container 
+using the CricketCoach class:
+
+
+
+	 CricketCoach theCricketCoach = 
+	 context.getBean("myCricketCoach", CricketCoach.class); 
+
+
+
+You have access to 
+the Methods 
+defined in 
+
+the Coach Interface: 
+
+- getDailyWorkout and 
+- getDailyFortune.
+
+ALSO, you have access to 
+the 
+
+Additional 
+
+Methods 
+
+defined in 
+the CricketCoach class: 
+- getTeam, 
+- setTeam.
+
+---
+
+The bottom line is 
+it depends on how you retrieve the object 
+and assign it ... 
+that determines 
+the visibility you have to the methods.
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
